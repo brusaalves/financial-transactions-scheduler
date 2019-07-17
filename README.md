@@ -10,7 +10,7 @@
         - [Especificação do objeto FinancialTransaction](#data-specs)
 - [Tecnologias utilizadas](#tech)
 - [Considerações gerais](#general)
-    -  [Estrutura do projeto](#structure)
+    - [Estrutura do projeto](#structure)
 
 ---
 
@@ -86,6 +86,11 @@ Uma listagem completa das tecnologias utilizadas e suas respectivas funções po
         make status
     ```
 
+- Executar testes unitários:
+    ```shellscript
+        make mvn-test
+    ```
+
 > Observação 1: Se forem feitas alterações no arquivo ".env" a aplicaçãp deverá ser reiniciada.
 
 > Observação 2: O reinicio da aplicação implica no "reset" dos dados persistidos em memória.
@@ -146,7 +151,7 @@ Uma listagem completa das tecnologias utilizadas e suas respectivas funções po
     "id": "d8bca22c-3595-4186-babb-458efbf2be7f",
     // Custo da operação (BigDecimal) | Formato: 0.00 | Gerado pelo sistema
     "operationCost": 6,
-    // Data do agendamento (Date) | Formato: yyyy-MM-dd'T'hh:mm:ss'Z' | Gerado pelo sistema
+    // Data do agendamento (Date) | Formato: yyyy-MM-dd'T'hh:mm:ss'Z' (ISO-8601) | Gerado pelo sistema
     "scheduleDate": "2019-07-17T19:12:01.566+0000", 
     // Conta origem (String) | Informada pelo usuário
     "account": "123456789",
@@ -154,7 +159,7 @@ Uma listagem completa das tecnologias utilizadas e suas respectivas funções po
     "destination": "987654321",
     // Valor transferido (BigDecimal) | Formato: 0.00 | Informada pelo usuário
     "value": 100,
-    // Data da transação (Date) | Formato: yyyy-MM-dd'T'hh:mm:ss'Z' | Informada pelo usuário
+    // Data da transação (Date) | Formato: yyyy-MM-dd'T'hh:mm:ss'Z' (ISO-8601) | Informada pelo usuário
     "transactionDate": "2019-07-18T12:00:00.000+0000" 
 }
 ```
@@ -166,6 +171,13 @@ Uma listagem completa das tecnologias utilizadas e suas respectivas funções po
 <div id='tech'/>
 
 ## Tecnologias utilizadas
+
+- Java v11 (openjdk) [Docker image: openjdk:11-jdk-slim]: Linguagem usada na construção da API
+- Maven v3.6.1 [Docker image: maven:3.6.1-jdk-11-slim]: Ferramenta de gestão de dependências e build da aplicação
+- Spring Boot v2.1.6.RELEASE: Framework com diversas ferramentas utilizadas
+- JUnit (embutido no Spring): Execução e validação dos testes unitários
+- Project Lombok v1.18.8: Utilizado para reduzir a quantidade de código digitado em algumas classes (à fim de se ter um código mais limpo)
+- Maven Ant Run plugin v1.8: Utilizado para criar uma cópia do arquivo ".jar" gerado pelo Mavem (à fim de compartilhá-lo na imagem docker que irá executá-lo)
 
 ---
 
