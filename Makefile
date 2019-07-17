@@ -51,6 +51,9 @@ start:
 	make docker-up
 stop:
 	make docker-down
+restart:
+	make stop
+	make start
 status:
 	make docker-ps
 logs:

@@ -1,0 +1,76 @@
+{
+	"info": {
+		"_postman_id": "eec887cd-7e4f-468d-8d93-6d0b3acfceb9",
+		"name": "financial-transactions-scheduler",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "read-schedules",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:8080/financial-transactions/schedules"
+			},
+			"response": []
+		},
+		{
+			"name": "create-schedule",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"transactionDate\": \"2019-07-18T12:00:00.000Z\",\n\t\"account\": \"123456789\",\n\t\"destination\": \"987654321\",\n\t\"value\": 100\n}"
+				},
+				"url": "localhost:8080/financial-transactions/schedules"
+			},
+			"response": []
+		},
+		{
+			"name": "read-schedule",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:8080/financial-transactions/schedules/b5243420-42c8-41e7-a908-dfdde17d61a6"
+			},
+			"response": []
+		},
+		{
+			"name": "update-schedule",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"transactionDate\": \"2019-07-18T12:00:00.000Z\",\n\t\"account\": \"111111111\",\n\t\"destination\": \"987654321\",\n\t\"value\": 100\n}"
+				},
+				"url": "localhost:8080/financial-transactions/schedules/b5243420-42c8-41e7-a908-dfdde17d61a6"
+			},
+			"response": []
+		},
+		{
+			"name": "delete-schedule",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "localhost:8080/financial-transactions/schedules/b5243420-42c8-41e7-a908-dfdde17d61a6"
+			},
+			"response": []
+		}
+	]
+}

@@ -10,12 +10,12 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/financial-transactions/schedule")
-public class ScheduleController {
+@RequestMapping("/financial-transactions/schedules")
+public class SchedulesController {
 
     private final ScheduleService service;
 
-    public ScheduleController(ScheduleService service) {
+    public SchedulesController(ScheduleService service) {
         this.service = service;
     }
 
