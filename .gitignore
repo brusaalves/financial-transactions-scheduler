@@ -1,15 +1,28 @@
-# eclipse files
-.settings
+### eclipse | STS ###
+.apt_generated
 .classpath
+.factorypath
 .project
+.settings
+.springBeans
+.sts4-cache
 
-# vscode files
-.vscode
-
-# IntelliJ files
+### IntelliJ IDEA ###
 .idea
+*.iws
 *.iml
+*.ipr
 .attach*
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
 
 # Maven files
 target

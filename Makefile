@@ -24,6 +24,8 @@ mvn-dependency-resolve:
 	make run-mvn command="dependency:resolve"
 mvn-package:
 	make run-mvn command="package"
+mvn-test:
+	make run-mvn command="test"
 # IN TESTS
 # mvn-generate:
 # 	make run-mvn command="archetype:generate"
@@ -49,3 +51,7 @@ start:
 	make docker-up
 stop:
 	make docker-down
+status:
+	make docker-ps
+logs:
+	make docker-logs
