@@ -20,6 +20,6 @@ public final class FinancialTransaction {
     private String destination;
     private BigDecimal value;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private Date transferDate;
+    private Date transactionDate;
 
 }

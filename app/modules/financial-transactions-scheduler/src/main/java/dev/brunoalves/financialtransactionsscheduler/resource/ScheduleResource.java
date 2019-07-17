@@ -3,8 +3,9 @@ package dev.brunoalves.financialtransactionsscheduler.resource;
 import dev.brunoalves.financialtransactionsscheduler.business.OperationCost;
 import dev.brunoalves.financialtransactionsscheduler.model.FinancialTransaction;
 import dev.brunoalves.financialtransactionsscheduler.repository.FinancialTransactionRepository;
-import dev.brunoalves.financialtransactionsscheduler.util.DateDiff;
+import dev.brunoalves.financialtransactionsscheduler.util.FinancialTransactionValidator;
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,28 +21,29 @@ public class ScheduleResource {
     private FinancialTransactionRepository repository = new FinancialTransactionRepository();
 
     @PostMapping
-    public ResponseEntity<FinancialTransaction> create(@Valid @RequestBody FinancialTransaction ft) throws Exception {
-        Date now = new Date();
-        if (ft.getTransferDate() == null)
-            throw new Exception("A transfer date is required");
-        if (DateDiff.of(ft.getTransferDate(), now).days() < 0)
-            throw new Exception("Transfer date must be greater than or equal to schedule date");
-        if (ft.getValue() == null)
-            throw new Exception("A value is required");
-        if (ft.getDestination() == null)
-            throw new Exception("A destination account is required");
-        if (ft.getAccount() == null)
-            throw new Exception("A origin account is required");
-        ft.setId(UUID.randomUUID().toString());
-        ft.setScheduleDate(now);
-        ft.setOperationCost(OperationCost.getCost(now, ft.getTransferDate(), ft.getValue()));
-        repository.save(ft);
-        return ResponseEntity.ok(ft);
+    public ResponseEntity<FinancialTransaction> create(@Valid @RequestBody FinancialTransaction ft) {
+        try {
+            Date now = new Date();
+            ft.setScheduleDate(now);
+            FinancialTransactionValidator.validateAllParameters(ft);
+            ft.setId(UUID.randomUUID().toString());
+            ft.setOperationCost(OperationCost.getCost(now, ft.getTransactionDate(), ft.getValue()));
+            repository.save(ft);
+            return ResponseEntity.ok(ft);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<FinancialTransaction> read(@PathVariable String id) {
-        return ResponseEntity.ok(repository.read(id));
+        FinancialTransaction res;
+        try {
+            res = repository.read(id);
+            return ResponseEntity.ok(res);
+        } catch (Exception e) {
+            return ResponseEntity.noContent().build();
+        }
     }
 
     @GetMapping
@@ -50,16 +52,28 @@ public class ScheduleResource {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<FinancialTransaction> update(@PathVariable String id, @Valid @RequestBody FinancialTransaction ft) throws Exception {
-        FinancialTransaction old = repository.read(id);
-        BeanUtils.copyProperties(ft, old, "id", "scheduleDate", "operationCost");
-        ft.setOperationCost(OperationCost.getCost(ft.getScheduleDate(), ft.getTransferDate(), ft.getValue()));
-        return ResponseEntity.ok(repository.update(ft));
+    public ResponseEntity<FinancialTransaction> update(@PathVariable String id, @Valid @RequestBody FinancialTransaction ft) {
+        try {
+            FinancialTransaction old = repository.read(id);
+            BeanUtils.copyProperties(ft, old, "id", "scheduleDate", "operationCost");
+            FinancialTransactionValidator.validateTransactionDate(ft.getTransactionDate(), old.getScheduleDate());
+            old.setOperationCost(OperationCost.getCost(old.getScheduleDate(), old.getTransactionDate(), old.getValue()));
+            return ResponseEntity.ok(repository.update(old));
+        } catch (IndexOutOfBoundsException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id) {
-        repository.delete(id);
-        return ResponseEntity.noContent().build();
+        try {
+            repository.read(id);
+            repository.delete(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

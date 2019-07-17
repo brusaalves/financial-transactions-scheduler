@@ -17,7 +17,7 @@ public class FinancialTransactionsSchedulerApplicationTests {
     @Autowired
     ScheduleResource scheduleResource;
 
-	@Test @Ignore
+	@Test
 	public void contextLoads() {
         assertThat(scheduleResource).isNotNull();
 	}

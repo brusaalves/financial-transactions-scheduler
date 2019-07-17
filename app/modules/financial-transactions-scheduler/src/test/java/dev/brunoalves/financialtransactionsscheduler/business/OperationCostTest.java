@@ -74,6 +74,7 @@ public class OperationCostTest {
         OperationCost.getCost(scheduleDate, transferDate, value);
     }
 
+    @Test
     public void testCostToOperationC5Success() throws Exception {
         Date scheduleDate = DATE_FORMAT.parse ("2019-07-17T12:00:00.000Z");
         Date transferDate = DATE_FORMAT.parse ("2019-08-28T12:00:00.000Z");
