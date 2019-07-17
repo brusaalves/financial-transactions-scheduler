@@ -2,8 +2,7 @@ package dev.brunoalves.financialtransactionsscheduler;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import dev.brunoalves.financialtransactionsscheduler.resource.ScheduleResource;
-import org.junit.Ignore;
+import dev.brunoalves.financialtransactionsscheduler.controller.ScheduleController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +14,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class FinancialTransactionsSchedulerApplicationTests {
 
     @Autowired
-    ScheduleResource scheduleResource;
+    ScheduleController scheduleController;
 
 	@Test
 	public void contextLoads() {
-        assertThat(scheduleResource).isNotNull();
+        assertThat(scheduleController).isNotNull();
 	}
 
 }
