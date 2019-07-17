@@ -145,7 +145,7 @@ Uma listagem completa das tecnologias utilizadas e suas respectivas funções po
 <div id='data-specs'/>
 
 #### Especificação do objeto FinancialTransaction
-```json
+```
 {
     // Identificador (String) | Gerado pelo sistema
     "id": "d8bca22c-3595-4186-babb-458efbf2be7f",
